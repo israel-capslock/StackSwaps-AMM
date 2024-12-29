@@ -1,4 +1,4 @@
-;; AMM (Automated Market Maker) Contract
+;; StackSwaps - AMM (Automated Market Maker) Contract
 ;; 
 ;; This contract implements a decentralized exchange with automated market maker functionality,
 ;; liquidity provision, and yield farming rewards. It uses the constant product formula (x * y = k)
