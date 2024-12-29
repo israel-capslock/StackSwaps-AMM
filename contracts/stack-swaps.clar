@@ -36,7 +36,8 @@
 ;; Data Maps
 (define-map allowed-tokens 
     principal 
-    bool)
+    bool
+)
 
 (define-map liquidity-pools 
     {token1: principal, token2: principal} 
@@ -44,16 +45,43 @@
         total-liquidity: uint,
         token1-reserve: uint,
         token2-reserve: uint
-    })
+    }
+)
 
 (define-map user-liquidity 
     {user: principal, token1: principal, token2: principal} 
-    {liquidity-shares: uint})
+    {liquidity-shares: uint}
+)
 
 (define-map yield-rewards 
     {user: principal, token: principal} 
-    {pending-rewards: uint})
+    {pending-rewards: uint}
+)
 
 ;; State Variables
 (define-data-var contract-owner principal tx-sender)
 (define-data-var reward-rate uint REWARD-RATE-PER-BLOCK)
+
+;; Private Functions
+
+;; Validates if a token is in the allowed list
+(define-private (is-valid-token (token principal))
+    (default-to false (map-get? allowed-tokens token))
+)
+
+;; Ensures amount is within valid range
+(define-private (validate-amount (amount uint))
+    (and 
+        (> amount u0) 
+        (< amount MAX-UINT)
+	)
+)
+
+;; Validates token pair for pool operations
+(define-private (validate-token-pair (token1 principal) (token2 principal))
+    (and 
+        (not (is-eq token1 token2))
+        (is-valid-token token1)
+        (is-valid-token token2)
+	)
+)
