@@ -53,3 +53,7 @@
 (define-map yield-rewards 
     {user: principal, token: principal} 
     {pending-rewards: uint})
+
+;; State Variables
+(define-data-var contract-owner principal tx-sender)
+(define-data-var reward-rate uint REWARD-RATE-PER-BLOCK)
